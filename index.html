@@ -6,45 +6,39 @@
 <title>Video Viral Terbaru</title>
 
 <style>
-
 body{
 margin:0;
 background:#0f0f0f;
 font-family:Arial;
 color:white;
 }
-
 header{
 text-align:center;
 padding:15px;
 background:#1a1a1a;
 }
-
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
 gap:10px;
 padding:10px;
 }
-
 .card{
 background:#1a1a1a;
 border-radius:8px;
 overflow:hidden;
 cursor:pointer;
 }
-
 .card video{
 width:100%;
 height:120px;
 object-fit:cover;
 }
-
 .title{
 font-size:13px;
 padding:8px;
+text-align:center;
 }
-
 .player{
 position:fixed;
 top:0;
@@ -57,12 +51,10 @@ justify-content:center;
 align-items:center;
 flex-direction:column;
 }
-
 .player video{
 width:95%;
 max-width:800px;
 }
-
 .close{
 position:absolute;
 top:10px;
@@ -70,12 +62,10 @@ right:15px;
 font-size:28px;
 cursor:pointer;
 }
-
 .pagination{
 text-align:center;
 padding:20px;
 }
-
 button{
 padding:10px 20px;
 border:none;
@@ -83,7 +73,6 @@ border-radius:20px;
 margin:5px;
 cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -102,14 +91,12 @@ cursor:pointer;
 
 <div class="player" id="player">
 <span class="close" onclick="closePlayer()">✕</span>
-<video id="mainVideo" controls autoplay></video>
+<video id="mainVideo" controls autoplay playsinline></video>
 </div>
 
 <script>
 
-const ads=[
-"https://otieu.com/4/10005133"
-];
+const ads=["https://otieu.com/4/10005133"];
 
 function openAd(){
 let ad=ads[Math.floor(Math.random()*ads.length)];
@@ -117,7 +104,6 @@ window.open(ad,"_blank");
 }
 
 const videoList=[
-
 "https://cdn.videy.co/4c75aa561.mp4",
 "https://cdn.videy.co/520854f81.mp4",
 "https://cdn.videy.co/5YeFYj2B1.mp4",
@@ -179,8 +165,10 @@ const videoList=[
 "https://cdn2.videy.co/cCoYLTJU1.mp4",
 "https://cdn2.videy.co/fhApcOCp1.mp4",
 "https://cdn2.videy.co/QFkm044C1.mp4"
-
 ];
+
+// random
+videoList.sort(()=>Math.random()-0.5);
 
 let page=1;
 const perPage=8;
@@ -199,15 +187,15 @@ let card=document.createElement("div");
 card.className="card";
 
 card.innerHTML=`
-<video src="${v[0]}" muted preload="metadata"></video>
-<div class="title">${v[1]}</div>
+<video src="${v}" muted preload="metadata" playsinline></video>
+<div class="title">Video</div>
 `;
 
 card.onclick=()=>{
 
 const video=document.getElementById("mainVideo");
 
-video.src=v[0];
+video.src=v;
 
 document.getElementById("player").style.display="flex";
 
@@ -216,15 +204,10 @@ openAd();
 video.dataset.adShown=false;
 
 video.ontimeupdate=function(){
-
 if(video.currentTime>20 && video.dataset.adShown=="false"){
-
 video.dataset.adShown=true;
-
 openAd();
-
 }
-
 };
 
 };
@@ -236,39 +219,24 @@ grid.appendChild(card);
 }
 
 function nextPage(){
-
 if(page*perPage<videoList.length){
-
 page++;
-
 openAd();
-
 renderVideos();
-
 }
-
 }
 
 function prevPage(){
-
 if(page>1){
-
 page--;
-
 openAd();
-
 renderVideos();
-
 }
-
 }
 
 function closePlayer(){
-
 document.getElementById("player").style.display="none";
-
 document.getElementById("mainVideo").pause();
-
 }
 
 renderVideos();
